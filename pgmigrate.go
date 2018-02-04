@@ -163,7 +163,7 @@ func (m *Migrator) apply(n int) error {
 	}
 
 	gs := m.pendingUp()
-	log.Printf("migrate up: there are %d pending migrations.", len(gs))
+	log.Printf("migrate up: there are %d pending migrations.\n", len(gs))
 	for i, g := range gs {
 		if n > 0 && i >= n {
 			break
@@ -196,7 +196,7 @@ func (m *Migrator) apply(n int) error {
 			return err
 		}
 
-		log.Printf("migrate up: successfully applied %s in %v", g, time.Since(t))
+		log.Printf("migrate up: successfully applied %s in %v.\n", g, time.Since(t))
 	}
 
 	return nil
@@ -211,7 +211,7 @@ func (m *Migrator) revert(n int) error {
 	}
 
 	gs := m.pendingDown()
-	log.Printf("migrate down: there are %d applied migrations", len(gs))
+	log.Printf("migrate down: there are %d applied migrations.\n", len(gs))
 	for i, g := range gs {
 		if n > 0 && i >= n {
 			break
@@ -244,7 +244,7 @@ func (m *Migrator) revert(n int) error {
 			return err
 		}
 
-		log.Printf("migrate down: successfully reverted %s in %v", g, time.Since(t))
+		log.Printf("migrate down: successfully reverted %s in %v.\n", g, time.Since(t))
 	}
 
 	return nil
