@@ -43,8 +43,12 @@ func NewMigrator(url string) *Migrator {
 
 // Add adds Migrations to the Migrator. This method can be called repeatedly
 // any time before an Up or Down method is called.
-func (m *Migrator) Add(gs ...*Migration) {
-	m.gs = append(m.gs, gs...)
+func (m *Migrator) Add(gs ...Migration) *Migrator {
+	for i, _ := range gs {
+		g := &gs[i]
+		m.gs = append(m.gs, g)
+	}
+	return m
 }
 
 // UpOne applies the next pending migration, if any.

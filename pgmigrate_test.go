@@ -13,7 +13,7 @@ func TestPgMigrate(t *testing.T) {
 	}
 
 	m := NewMigrator(postgresUrl)
-	m.Add(&Migration{
+	m.Add(Migration{
 		Version: 1,
 		Name:    "widgets_init",
 		Up: `
@@ -26,7 +26,7 @@ func TestPgMigrate(t *testing.T) {
 			drop table if exists widgets;
 		`,
 	})
-	m.Add(&Migration{
+	m.Add(Migration{
 		Version: 2,
 		Name:    "users_init",
 		Up: `
@@ -42,7 +42,7 @@ func TestPgMigrate(t *testing.T) {
 			drop table if exists users;
 		`,
 	})
-	m.Add(&Migration{
+	m.Add(Migration{
 		Version: 3,
 		Name:    "users_add_birthday",
 		Up: `

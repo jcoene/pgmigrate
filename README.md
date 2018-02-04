@@ -26,7 +26,7 @@ import "github.com/jcoene/pgmigrate"
 m := pgmigrate.NewMigrator("postgres://postgres:@127.0.0.1:5432/myapp_development?sslmode=disable")
 
 // Add some migration definitions
-m.Add(&pgmigrate.Migration{
+m.Add(pgmigrate.Migration{
   Version: 1,
   Name:    "widgets_init",
   Up: `
@@ -39,7 +39,7 @@ m.Add(&pgmigrate.Migration{
     drop table if exists widgets;
   `,
 })
-m.Add(&pgmigrate.Migration{
+m.Add(pgmigrate.Migration{
   Version: 2,
   Name:    "users_init",
   Up: `
