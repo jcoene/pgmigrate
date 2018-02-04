@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/jcoene/pgmigrate.png?branch=master)](http://travis-ci.org/jcoene/pgmigrate) [![GoDoc](https://godoc.org/github.com/jcoene/pgmigrate?status.svg)](http://godoc.org/github.com/jcoene/pgmigrate)
 
-Pgmigrate is a library that performs database migrations. It only supports Postgres and aims to be simple, robust, and verbose.
+Pgmigrate performs database migrations. It only supports Postgres and aims to be simple, robust, and verbose.
 
 ## Why?
 
@@ -17,8 +17,6 @@ There are plenty of other database migration solutions for Go. Over the years th
 
 
 ## Usage
-
-Apply migrations:
 
 ```go
 
@@ -65,7 +63,7 @@ if err := m.UpAll(); err != nil {
 }
 ```
 
-See the test file or godoc for more details.
+See the tests or godoc for more details.
 
 ## License
 
