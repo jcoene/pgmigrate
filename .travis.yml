@@ -1,0 +1,18 @@
+sudo: required
+dist: trusty
+language: go
+
+go:
+  - 1.9.3
+
+addons:
+  postgresql: "9.6"
+
+install:
+  - go get -t
+
+before_script:
+  - psql -U postgres -c 'create database pgmigrate_test;'
+
+script:
+  - go test -v
