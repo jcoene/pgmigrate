@@ -3,6 +3,7 @@ package pgmigrate
 import (
 	"math/rand"
 	"os"
+	"sync"
 	"testing"
 )
 
@@ -53,6 +54,26 @@ func TestPgMigrate(t *testing.T) {
 			alter table users drop column birthday;
 		`,
 	})
+	m.Add(Migration{
+		Version: 4,
+		Name:    "users_add_cat_or_dog",
+		Up: `
+			alter table users add column cat_or_dog text;
+		`,
+		Down: `
+			alter table users drop column cat_or_dog;
+		`,
+	})
+	m.Add(Migration{
+		Version: 5,
+		Name:    "users_rename_cat_or_dog_to_favorite_pet_type",
+		Up: `
+			alter table users rename column cat_or_dog to favorite_pet_type;
+		`,
+		Down: `
+			alter table users rename column favorite_pet_type to cat_or_dog;
+		`,
+	})
 
 	if err := m.DownAll(); err != nil {
 		t.Fatalf("unexpected error running DownAll: %s", err)
@@ -76,12 +97,20 @@ func TestPgMigrate(t *testing.T) {
 		{name: "DownOne", fn: m.DownOne},
 	}
 
-	for i := 0; i < 100; i++ {
-		n := rand.Intn(len(funcs))
-		if err := funcs[n].fn(); err != nil {
-			t.Fatalf("unexpected error running %s (random): %s", funcs[n].name, err)
-		}
+	wg := sync.WaitGroup{}
+	for j := 0; j < 10; j++ {
+		wg.Add(1)
+		go func(j int) {
+			defer wg.Done()
+			for i := 0; i < 100; i++ {
+				n := rand.Intn(len(funcs))
+				if err := funcs[n].fn(); err != nil {
+					t.Fatalf("unexpected error running %s (random): %s", funcs[n].name, err)
+				}
+			}
+		}(j)
 	}
+	wg.Wait()
 
 	if err := m.UpAll(); err != nil {
 		t.Fatalf("unexpected error running UpAll: %s", err)
